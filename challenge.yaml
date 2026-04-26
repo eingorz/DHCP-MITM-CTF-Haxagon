@@ -1,0 +1,39 @@
+title: "DHCP Meltdown: Dunder Mifflin"
+description: DESCRIPTION.md
+handbook: HANDBOOK.md
+shortDescription: |-
+  V této úloze se studenti naučí potrápit novopečeného admina. Odhalí podivnou síťovou konfiguraci pobočky Scranton, což po chvíli bádání umožní kompletně převzít komunikaci oběti na vlastní stroje. Nakonec vmanipulují admina do spuštění vlastního kódu pod zástěrkou legitimní síťové dopravy.
+tags:
+  - network
+  - dhcp
+  - mitm
+access:
+  - password: goldtitle8
+    port: 22
+    type: ssh
+    username: student
+  - password: goldtitle8
+    port: 8080
+    type: http
+    username: student
+flags:
+  - name: Dwightova choulostivá data přes FTP
+    description: |-
+      IP adresy v síti došly dříve než káva v kuchyňce. Využijte toho, že si Dwight síť "překopal" k vlastnímu obrazu a donutťe jeho stanici, aby si pro síťovou konfiguraci slepě chodila k Vám.
+
+      Tím získáte pohled do jeho obíhajících dat na rozhraní \`eth1\`. Pak už jen stačí najít `flag.txt`.
+      
+      > **Útoky a naslouchání provádějte na rozhraní eth1**.
+    identifier: dhcp-attacking-easy-1
+    maximumTries: 3
+    placeholder: flag1
+    points: 15
+    type: "1"
+  - name: Farmářské tajemství (Active MitM)
+    description: |-
+      Když už Vám jeho stroj poslušně žere z ruky a stahuje data přímo skrze Vás, proč toho nevyužít? Podstrčte mu do jednoho z jeho pravidelných přenášených datových toků "aktualizaci" za běhu a donutťe jeho počítač, ať Vám poslušně naservíruje tajemství ukryté bezpečně z dohledu v `/root/secret_beet_farm.txt`.
+    identifier: dhcp-attacking-easy-2
+    maximumTries: 5
+    placeholder: flag2
+    points: 25
+    type: "1"

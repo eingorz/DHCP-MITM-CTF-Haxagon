@@ -1,0 +1,73 @@
+services:
+  router:
+    runtime: sysbox-runc
+    hostname: router
+    tty: true
+    build: ./containers/router
+    environment:
+      - USERNAME=admin
+      - PASSWORD=supertajneheslobret
+      - SUDO=true
+    volumes:
+      - ./setup-scripts/router.sh:/tmp/entrypoint.sh
+    networks:
+      0wan:
+        ipv4_address: 192.168.50.2
+        interface_name: eth0
+      1client:
+        interface_name: eth1
+
+  client:
+    runtime: sysbox-runc
+    hostname: client
+    tty: true
+    build: ./containers/client
+    environment:
+      - USERNAME=admin
+      - PASSWORD=supertajneheslobret
+      - SUDO=true
+    volumes:
+      - ./setup-scripts/client.sh:/tmp/entrypoint.sh
+      - ./setup-scripts/client_loop.sh:/tmp/client_loop.sh
+    networks:
+      1client:
+        interface_name: eth0
+    ports:
+      - 8022:22
+
+  attacker:
+    runtime: sysbox-runc
+    hostname: attacker
+    tty: true
+    build: ./containers/attacker
+    environment:
+      - USERNAME=student
+      - PASSWORD=goldtitle8
+      - SUDO=true
+    volumes:
+      - ./setup-scripts/attacker.sh:/tmp/entrypoint.sh
+    networks:
+      0wan:
+        ipv4_address: 192.168.50.3
+        interface_name: eth0
+      1client:
+        interface_name: eth1
+    ports:
+      - "22:22"
+      - "8080:7681"
+
+networks:
+  0wan:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.50.0/24
+          gateway: 192.168.50.1
+  1client:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 99.14.96.0/24
+          gateway: 99.14.96.1
