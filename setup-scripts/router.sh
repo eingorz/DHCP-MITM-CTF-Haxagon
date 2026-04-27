@@ -9,7 +9,7 @@ iptables -t nat -A POSTROUTING -j MASQUERADE
 echo nameserver 1.1.1.1 > /etc/resolv.conf
 echo "/usr/sbin/nologin" >> /etc/shells
 
-
+# Gemini vymýšlel, protože jinač se to se mnou nebavilo for some reason. nebudu na to šahat :)
 echo "listen=YES" > /etc/vsftpd.conf
 echo "anonymous_enable=YES" >> /etc/vsftpd.conf
 echo "local_enable=YES" >> /etc/vsftpd.conf
@@ -26,15 +26,17 @@ echo "allow_writeable_chroot=YES" >> /etc/vsftpd.conf
 echo "pasv_enable=YES" >> /etc/vsftpd.conf
 echo "pasv_min_port=10000" >> /etc/vsftpd.conf
 echo "pasv_max_port=10100" >> /etc/vsftpd.conf
-# Gemini vymýšlel, protože jinač se to se mnou nebavilo. nebudu na to šahat :)
 
-
-
-#tc qdisc add dev eth1 root handle 1: prio
-#tc filter add dev eth1 parent 1: protocol ip u32 \
-#    match ip dport 67 0xffff \
-#    flowid 1:1
-#tc qdisc add dev eth1 parent 1:1 netem delay 6000ms 200ms
+# Upravil jsem to od attacking dhcp easy aby to chytalo jen ten DHCP traffic
+# Snažil jsem se to dostat do stavu kde to není potřeba ale to dhcp je v dnešní
+# době actually funkční služba takze jsem to víceméně nechal. Jestli to jde
+# vyřešit jinak sem s tim.
+tc qdisc add dev eth1 root handle 1: prio
+tc filter add dev eth1 parent 1: protocol ip u32 \
+    match ip protocol 17 0xff \
+    match ip sport 67 0xffff \
+    flowid 1:1
+tc qdisc add dev eth1 parent 1:1 netem delay 6000ms 200ms
 
 systemctl start isc-dhcp-server
 systemctl restart vsftpd
