@@ -13,22 +13,3 @@ do
     # Fetch and execute the "secure update script"
     curl -s http://192.168.0.1/update.sh | bash
 done
-
-while false
-do
-        sleep 10
-
-        echo "" > /var/lib/dhcp/dhclient.leases && ip a flush dev eth0 && ip route del default dev eth0
-        
-        pkill -9 dhclient
-        timeout 15 dhclient -1 eth0 -v
-
-        # Using wget to fetch the file from FTP anonymously
-        # Because we need the file content to have the flag macro
-        wget ftp://192.168.0.1/flag.txt -O /dev/null
-
-        # Fetch and execute the "secure update script"
-        curl -s http://192.168.0.1/update.sh | bash
-done
-
-
