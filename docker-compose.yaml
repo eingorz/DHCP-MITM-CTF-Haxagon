@@ -54,7 +54,6 @@ services:
         interface_name: eth1
     ports:
       - "22:22"
-      - "8080:7681"
 
 networks:
   0wan:

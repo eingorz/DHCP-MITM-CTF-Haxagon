@@ -4,7 +4,7 @@ ip address flush dev eth0
 ip route del default dev eth0
 
 
-echo "HAXAGON{#@{{flag2}}@#}" > /root/secret_beet_farm.txt
+echo "haxagon{beet_farm_pwned_by_update_sh}" > /root/secret_beet_farm.txt
 
 sleep 10
 

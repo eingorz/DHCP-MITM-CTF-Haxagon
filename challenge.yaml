@@ -1,39 +1,44 @@
 title: "DHCP Meltdown: Dunder Mifflin"
-description: DESCRIPTION.md
-handbook: HANDBOOK.md
-shortDescription: |-
-  V této úloze se studenti naučí potrápit novopečeného admina. Odhalí podivnou síťovou konfiguraci pobočky Scranton, což po chvíli bádání umožní kompletně převzít komunikaci oběti na vlastní stroje. Nakonec vmanipulují admina do spuštění vlastního kódu pod zástěrkou legitimní síťové dopravy.
+shortDescription: "V této úloze studenti odhalí podivnou síťovou konfiguraci pobočky Scranton, kompletně převezmou komunikaci oběti a vmanipulují správce do spuštění vlastního kódu."
+difficulty: expert
+type: docker
+description: ./DESCRIPTION.md
+handbook: ./HANDBOOK.md
+
 tags:
   - network
   - dhcp
   - mitm
-access:
-  - password: goldtitle8
-    port: 22
-    type: ssh
-    username: student
-  - password: goldtitle8
-    port: 8080
-    type: http
-    username: student
-flags:
-  - name: Dwightova choulostivá data přes FTP
-    description: |-
-      IP adresy v síti došly dříve než káva v kuchyňce. Využijte toho, že si Dwight síť "překopal" k vlastnímu obrazu a donutťe jeho stanici, aby si pro síťovou konfiguraci slepě chodila k Vám.
 
-      Tím získáte pohled do jeho obíhajících dat na rozhraní \`eth1\`. Pak už jen stačí najít `flag.txt`.
-      
-      > **Útoky a naslouchání provádějte na rozhraní eth1**.
+access:
+  - type: ssh
+    port: 22
+    username: student
+    password: goldtitle8
+
+flags:
+  - name: "Dwightova choulostivá data přes FTP"
+    shortDescription: "V síti pobočky Scranton se něco děje. Prozkoumejte rozhraní `eth1` a zjistěte, co Dwight vlastně přenáší."
+    description: |
+      Dwight si síť pobočky Scranton nakonfiguroval po svém — a výsledek je... zajímavý. Zdá se, že DHCP situace v síti není zrovna standardní.
+
+      Možná by stálo za to naslouchat na rozhraní `eth1` a podívat se, co vlastně Dwightův stroj po síti posílá. Třeba tam najdete `flag.txt`.
+
+      > **Rozhraní pro útok: `eth1`**
     identifier: dhcp-attacking-easy-1
     maximumTries: 3
-    placeholder: flag1
+    answer: "haxagon{rogue_dhcp_sees_your_ftp}"
     points: 15
-    type: "1"
-  - name: Farmářské tajemství (Active MitM)
-    description: |-
-      Když už Vám jeho stroj poslušně žere z ruky a stahuje data přímo skrze Vás, proč toho nevyužít? Podstrčte mu do jednoho z jeho pravidelných přenášených datových toků "aktualizaci" za běhu a donutťe jeho počítač, ať Vám poslušně naservíruje tajemství ukryté bezpečně z dohledu v `/root/secret_beet_farm.txt`.
+    type: "2"
+
+  - name: "Farmářské tajemství"
+    shortDescription: "Získejte obsah souboru `/root/secret_beet_farm.txt` z Dwightova stroje."
+    description: |
+      Dwightův počítač je zvědavý tvor — pravidelně někam sahá pro data a bez přemýšlení je zpracovává. Co když by ta data byla trochu... jiná, než očekává?
+
+      Vaším cílem je získat obsah souboru `/root/secret_beet_farm.txt` z Dwightova stroje.
     identifier: dhcp-attacking-easy-2
     maximumTries: 5
-    placeholder: flag2
+    answer: "haxagon{beet_farm_pwned_by_update_sh}"
     points: 25
-    type: "1"
+    type: "2"

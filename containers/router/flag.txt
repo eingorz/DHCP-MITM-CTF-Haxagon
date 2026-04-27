@@ -1,1 +1,1 @@
-HAXAGON{#@{{flag1}}@#}
+haxagon{rogue_dhcp_sees_your_ftp}
