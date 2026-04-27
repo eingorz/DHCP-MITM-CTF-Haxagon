@@ -25,7 +25,7 @@ flags:
       Možná by stálo za to naslouchat na rozhraní `eth1` a podívat se, co vlastně Dwightův stroj po síti posílá. Třeba tam najdete `flag.txt`.
 
       > **Rozhraní pro útok: `eth1`**
-    identifier: dhcp-attacking-easy-1
+    identifier: dhcp-meltdown-1
     maximumTries: 3
     answer: "haxagon{rogue_dhcp_sees_your_ftp}"
     points: 15
@@ -37,7 +37,7 @@ flags:
       Dwightův počítač je zvědavý tvor — pravidelně někam sahá pro data a bez přemýšlení je zpracovává. Co když by ta data byla trochu... jiná, než očekává?
 
       Vaším cílem je získat obsah souboru `/root/secret_beet_farm.txt` z Dwightova stroje.
-    identifier: dhcp-attacking-easy-2
+    identifier: dhcp-meltdown-2
     maximumTries: 5
     answer: "haxagon{beet_farm_pwned_by_update_sh}"
     points: 25
